@@ -2,7 +2,7 @@
 #include "FSR31Feature.h"
 #include "../IFeature_Dx11.h"
 
-#include "../../fsr31/include/ffx_fsr3upscaler.h"
+#include "../../fsr31/include/ffx_fsr3.h"
 #include "../../fsr31/include/dx11/ffx_dx11.h"
 #include "../../fsr31/include/ffx_types.h"
 #include "../../fsr31/include/ffx_error.h"
@@ -48,10 +48,31 @@ inline static std::string ResultToString(Fsr31::FfxErrorCode result)
 }
 
 private:
+	using D3D11_TEXTURE2D_DESC_C = struct D3D11_TEXTURE2D_DESC_C
+	{
+		UINT Width;
+		UINT Height;
+		DXGI_FORMAT Format;
+		UINT BindFlags;
+	};
+
+	using D3D11_TEXTURE2D_RESOURCE_C = struct D3D11_TEXTURE2D_RESOURCE_C
+	{
+		D3D11_TEXTURE2D_DESC_C Desc = {};
+		ID3D11Texture2D* Texture = nullptr;
+		bool usingOriginal = false;
+	};
+
+	D3D11_TEXTURE2D_RESOURCE_C bufferColor = {};
+	D3D11_TEXTURE2D_RESOURCE_C bufferDepth = {};
+	D3D11_TEXTURE2D_RESOURCE_C bufferVelocity = {};
+
+	bool CopyTexture(ID3D11Resource* InResource, D3D11_TEXTURE2D_RESOURCE_C* OutTextureDesc, UINT bindFlags, bool InCopy);
+	void ReleaseResources();
 
 protected:
-	Fsr31::FfxFsr3UpscalerContext _upscalerContext = {};
-    Fsr31::FfxFsr3UpscalerContextDescription _upscalerContextDesc = {};
+	Fsr31::FfxFsr3Context _upscalerContext = {};
+    Fsr31::FfxFsr3ContextDescription _upscalerContextDesc = {};
 
 	bool InitFSR3(const NVSDK_NGX_Parameter* InParameters);
 

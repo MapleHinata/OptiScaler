@@ -537,6 +537,8 @@ void ImGuiCommon::AddDx11Backends(std::string* code, std::string* name)
         selectedUpscalerName = "FSR 2.1.2 w/Dx12";
     else if (Config::Instance()->newBackend == "fsr31_12" || (Config::Instance()->newBackend == "" && *code == "fsr31_12"))
         selectedUpscalerName = "FSR 3.1.0 w/Dx12";
+    else if (Config::Instance()->newBackend == "fsr31" || (Config::Instance()->newBackend == "" && *code == "fsr31"))
+        selectedUpscalerName = "FSR 3.0.3";
     else if (Config::Instance()->DLSSEnabled.value_or(true) && (Config::Instance()->newBackend == "dlss" || (Config::Instance()->newBackend == "" && *code == "dlss")))
         selectedUpscalerName = "DLSS";
     else
@@ -546,6 +548,9 @@ void ImGuiCommon::AddDx11Backends(std::string* code, std::string* name)
     {
         if (ImGui::Selectable("FSR 2.2.1", *code == "fsr22"))
             Config::Instance()->newBackend = "fsr22";
+
+        if (ImGui::Selectable("FSR 3.0.3", *code == "fsr31"))
+            Config::Instance()->newBackend = "fsr31";
 
         if (ImGui::Selectable("XeSS w/Dx12", *code == "xess"))
             Config::Instance()->newBackend = "xess";

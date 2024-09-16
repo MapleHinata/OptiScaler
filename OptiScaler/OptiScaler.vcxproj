@@ -169,7 +169,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3d12.lib;vulkan-1.lib;dxguid.lib;ffx_fsr2_api_x64.lib;ffx_fsr2_api_dx11_x64.lib;ffx_fsr2_api_dx12_x64.lib;ffx_fsr2_api_vk_x64.lib;ffx_fsr2_212_api_dx12_x64.lib;ffx_fsr2_212_api_vk_x64.lib;ffx_fsr2_212_api_x64.lib;d3dcompiler.lib;ffx_x64.lib;ffx_fsr3upscaler_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3d12.lib;vulkan-1.lib;dxguid.lib;ffx_fsr2_api_x64.lib;ffx_fsr2_api_dx11_x64.lib;ffx_fsr2_api_dx12_x64.lib;ffx_fsr2_api_vk_x64.lib;ffx_fsr2_212_api_dx12_x64.lib;ffx_fsr2_212_api_vk_x64.lib;ffx_fsr2_212_api_x64.lib;d3dcompiler.lib;ffx_x64.lib;ffx_fsr3_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ModuleDefinitionFile>Source.def</ModuleDefinitionFile>
     </Link>
