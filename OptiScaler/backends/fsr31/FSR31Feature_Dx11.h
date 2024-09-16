@@ -1,0 +1,65 @@
+#pragma once
+#include "FSR31Feature.h"
+#include "../IFeature_Dx11.h"
+
+#include "../../fsr31/include/ffx_fsr3upscaler.h"
+#include "../../fsr31/include/dx11/ffx_dx11.h"
+#include "../../fsr31/include/ffx_types.h"
+#include "../../fsr31/include/ffx_error.h"
+
+
+class FSR31FeatureDx11 : public FSR31Feature, public IFeature_Dx11
+{
+
+inline static void FfxLogCallback(Fsr31::FfxMsgType type, const wchar_t* message)
+{
+	std::wstring string(message);
+
+	//if (type == Fsr31::FFX_API_MESSAGE_TYPE_ERROR)
+	//	LOG_ERROR("FSR Runtime: {0}", str);
+	//else if (type == Fsr31::FFX_API_MESSAGE_TYPE_WARNING)
+	//	LOG_WARN("FSR Runtime: {0}", str);
+	//else
+	LOG_DEBUG("FSR Runtime: {0}", wstring_to_string(string));
+}
+
+inline static std::string ResultToString(Fsr31::FfxErrorCode result)
+{
+	switch (result)
+	{
+	case Fsr31::FFX_OK: return "The operation completed successfully.";
+	case Fsr31::FFX_ERROR_INVALID_POINTER: return "The operation failed due to an invalid pointer.";
+	case Fsr31::FFX_ERROR_INVALID_ALIGNMENT: return "The operation failed due to an invalid alignment.";
+	case Fsr31::FFX_ERROR_INVALID_SIZE: return "The operation failed due to an invalid size.";
+	case Fsr31::FFX_EOF: return "The end of the file was encountered.";
+	case Fsr31::FFX_ERROR_INVALID_PATH: return "The operation failed because the specified path was invalid.";
+	case Fsr31::FFX_ERROR_EOF: return "The operation failed because end of file was reached.";
+	case Fsr31::FFX_ERROR_MALFORMED_DATA: return "The operation failed because of some malformed data.";
+	case Fsr31::FFX_ERROR_OUT_OF_MEMORY: return "The operation failed because it ran out memory.";
+	case Fsr31::FFX_ERROR_INCOMPLETE_INTERFACE: return "The operation failed because the interface was not fully configured.";
+	case Fsr31::FFX_ERROR_INVALID_ENUM: return "The operation failed because of an invalid enumeration value.";
+	case Fsr31::FFX_ERROR_INVALID_ARGUMENT: return "The operation failed because an argument was invalid.";
+	case Fsr31::FFX_ERROR_OUT_OF_RANGE: return "The operation failed because a value was out of range.";
+	case Fsr31::FFX_ERROR_NULL_DEVICE: return "The operation failed because a device was null.";
+	case Fsr31::FFX_ERROR_BACKEND_API_ERROR: return "The operation failed because the backend API returned an error code.";
+	case Fsr31::FFX_ERROR_INSUFFICIENT_MEMORY: return "The operation failed because there was not enough memory.";
+	default: return "Unknown";
+	}
+}
+
+private:
+
+protected:
+	Fsr31::FfxFsr3UpscalerContext _upscalerContext = {};
+    Fsr31::FfxFsr3UpscalerContextDescription _upscalerContextDesc = {};
+
+	bool InitFSR3(const NVSDK_NGX_Parameter* InParameters);
+
+public:
+	FSR31FeatureDx11(unsigned int InHandleId, NVSDK_NGX_Parameter* InParameters);
+
+	bool Init(ID3D11Device* InDevice, ID3D11DeviceContext* InContext, NVSDK_NGX_Parameter* InParameters) override;
+	bool Evaluate(ID3D11DeviceContext* DeviceContext, NVSDK_NGX_Parameter* InParameters) override;
+
+	~FSR31FeatureDx11();
+};
